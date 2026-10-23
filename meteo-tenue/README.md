@@ -1,6 +1,6 @@
 # Météo & Tenue
 
-Petite application météo en français, conçue pour téléphone et ordinateur. Elle affiche les prévisions des 7 prochains jours en degrés Celsius, avec des icônes météo et un conseil vestimentaire quotidien.
+Petite application météo, conçue pour téléphone et ordinateur. Elle affiche les prévisions des 7 prochains jours en degrés Celsius, avec des icônes météo et un conseil vestimentaire et de parfums quotidien.
 
 ## Utilisation rapide
 
@@ -12,12 +12,8 @@ La météo et la recherche de ville nécessitent une connexion Internet. La rech
 
 ## Installer sur l'écran d'accueil avec GPS
 
-Pour une expérience proche d'une application, publie le contenu du dossier sur un hébergement HTTPS statique, par exemple GitHub Pages :
-
-1. Crée un dépôt GitHub et ajoute tous les fichiers de ce dossier en gardant la même structure.
-2. Dans les paramètres du dépôt, ouvre **Pages** et active la publication depuis la branche principale (`main`, dossier `/root`).
-3. Ouvre l'adresse HTTPS générée dans Chrome sur ton téléphone.
-4. Menu ⋮ de Chrome → **Ajouter à l'écran d'accueil** ou **Installer l'application**.
+1. Ouvre l'adresse HTTPS générée dans Chrome sur ton téléphone.
+2. Menu ⋮ de Chrome → **Ajouter à l'écran d'accueil** ou **Installer l'application**.
 
 ## API utilisée
 
@@ -27,6 +23,9 @@ Pour une expérience proche d'une application, publie le contenu du dossier sur 
 
 Le bloc parfum propose plusieurs parfums pour aujourd’hui seulement : touche « Autre suggestion » pour passer au suivant. La liste est recalculée quand les prévisions du jour changent.
 
-Le bouton « Installer » peut apparaître automatiquement sur les navigateurs compatibles. Sinon, depuis Chrome sur Android, ouvre le site publié en HTTPS, touche le menu ⋮ puis « Ajouter à l’écran d’accueil » ou « Installer l’application ». Ouvrir simplement le fichier HTML depuis les téléchargements ne permet pas une installation PWA complète : il faut d’abord héberger le dossier en HTTPS (par exemple GitHub Pages).
+Le bouton « Installer » peut apparaître automatiquement sur les navigateurs compatibles. Sinon, depuis Chrome sur Android, ouvre le site publié en HTTPS, touche le menu ⋮ puis « Ajouter à l’écran d’accueil » ou « Installer l’application ». Ouvrir simplement le fichier HTML depuis les téléchargements ne permet pas une installation PWA complète 
 
 Les recommandations de vêtements sont des règles indicatives fondées sur les températures minimales/maximales et le vent ; elles ne remplacent pas ton appréciation des conditions locales.
+
+
+Voila Voila ca devrait etre tous
