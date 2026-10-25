@@ -161,6 +161,56 @@
       .day-high { font-size: 18px; }
     }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; scroll-behavior: auto !important; transition: none !important; } }
+    .hourly-section {
+  margin: 20px 0;
+}
+
+.hourly-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(105px, 1fr));
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.hour-card {
+  padding: 14px 8px;
+  text-align: center;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--white);
+}
+
+.hour-card .hour-time {
+  font-weight: 700;
+}
+
+.hour-card .hour-icon {
+  font-size: 30px;
+  margin: 10px 0;
+}
+
+.hour-card .hour-temp {
+  font-size: 23px;
+  font-weight: 800;
+}
+
+.hour-card p {
+  margin: 5px 0;
+  font-size: 12px;
+}
+
+#hourly-toggle {
+  width: 100%;
+  cursor: pointer;
+}
+
+#hourly-panel {
+  margin-top: 18px;
+}
+
+#hourly-panel[hidden] {
+  display: none;
+}
   </style>
 </head>
 <body>
@@ -196,6 +246,19 @@
       </div>
       <div class="hero-side"><div class="hero-weather-icon" id="hero-icon" aria-hidden="true">🌤️</div><div class="precip">☂ Pluie <strong id="hero-rain">—%</strong></div></div>
     </section>
+
+    <section class="hourly-section">
+  <button id="hourly-toggle" class="search-button" type="button">
+    🕒 Voir la météo heure par heure
+  </button>
+
+  <div id="hourly-panel" hidden>
+    <h2>Météo d'aujourd'hui</h2>
+    <p>Prévisions horaires jusqu'à minuit.</p>
+    <div id="hourly-grid" class="hourly-grid"></div>
+    <p id="hourly-message" role="status"></p>
+  </div>
+</section>
 
     <section aria-labelledby="outfit-heading">
       <div class="section-heading">
