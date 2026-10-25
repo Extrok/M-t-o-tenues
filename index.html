@@ -248,7 +248,6 @@
     </section>
 
     <section class="hourly-section">
-  <button id="hourly-toggle" class="search-button" type="button">
     🕒 Voir la météo heure par heure
   </button>
 
@@ -474,7 +473,10 @@
           const conditionDay = weather(day.weather_code);
           const suggestion = getOutfit(day.temperature_2m_max, day.temperature_2m_min, day.wind_speed_10m_max);
           const rainLine = day.precipitation_probability_max >= 20 ? `☂ ${Math.round(day.precipitation_probability_max)}% de pluie` : `☂ ${Math.round(day.precipitation_probability_max)}% de pluie`;
-          return `<article class="day-card ${i === 0 ? 'today' : ''}" aria-label="${dayName(day.date, i)}, ${conditionDay[0]}, maximum ${Math.round(day.temperature_2m_max)} degrés, minimum ${Math.round(day.temperature_2m_min)} degrés. Tenue conseillée : ${suggestion.title}">
+         return `<article
+  class="day-card ${i === 0 ? 'today' : ''}"
+  ${i === 0 ? 'id="today-card" role="button" tabindex="0" aria-expanded="false" title="Appuie pour voir la météo heure par heure"' : ''}
+  aria-label="${dayName(day.date, i)}, ${conditionDay[0]}, maximum ${Math.round(day.temperature_2m_max)} degrés, minimum ${Math.round(day.temperature_2m_min)} degrés. Tenue conseillée : ${suggestion.title}">
             <div class="day-name">${dayName(day.date, i)}</div>
             <div class="day-icon" aria-hidden="true">${conditionDay[1]}</div>
             <div class="day-condition">${conditionDay[0]}</div>
@@ -489,6 +491,37 @@
         const titleCity = fromGps ? 'Ma position' : place.name;
         document.title = `Météo & Tenue — ${titleCity}`;
       }
+      const todayCard = () => document.getElementById('today-card');
+
+function toggleTodayHourly() {
+  const card = todayCard();
+  const panel = document.getElementById('hourly-panel');
+
+  if (!card || !panel) return;
+
+  panel.hidden = !panel.hidden;
+  card.setAttribute('aria-expanded', String(!panel.hidden));
+
+  if (!panel.hidden) {
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+}
+
+document.getElementById('week-grid').addEventListener('click', (event) => {
+  if (event.target.closest('#today-card')) {
+    toggleTodayHourly();
+  }
+});
+
+document.getElementById('week-grid').addEventListener('keydown', (event) => {
+  if (
+    event.target.closest('#today-card') &&
+    (event.key === 'Enter' || event.key === ' ')
+  ) {
+    event.preventDefault();
+    toggleTodayHourly();
+  }
+});
       async function loadPlace(place, fromGps = false) {
         setLoading(true);
         try {
