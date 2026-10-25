@@ -337,28 +337,50 @@
       function perfumeSuggestions(max, min, code, rain, wind) {
         // Les propositions restent liées à la météo d'aujourd'hui uniquement.
         if (code >= 95 || rain >= 65) return [
+          { title: 'Stronger With You Absolutely', text: 'Rhum, vanille et châtaigne, une fragrance riche et chaleureuse pour les soirées fraîches.', note: 'GOURMAND · AMBRÉ' },
+          { title: 'Jean Paul Gaultier Ultra Male', text: 'Poire, lavande et vanille : sucré, puissant et idéal pour les sorties nocturnes.', note: 'FRUITÉ · SUCRÉ' },          
+          { title: 'Le Male Elixir', text: 'Miel, vanille et notes aromatiques : intense et enveloppant quand il fait froid.', note: 'MIEL · VANILLE' },
+          { title: 'Afnan 9 PM', text: 'Pomme, cannelle et vanille : un parfum séduisant pour les soirées fraîches.', note: 'FRUITÉ · VANILLÉ' },
+          { title: 'Dior Homme Intense', text: 'Iris poudré, ambre et bois : élégant, idéal pour les soirées fraîches.', note: 'IRIS · ÉLÉGANT' },
+          { title: 'Valentino Uomo Born in Roma Intense', text: 'Vanille et notes aromatiques : sensuel et affirmé, surtout le soir.', note: 'VANILLÉ · INTENSE' },
+          { title: 'Lattafa Khamrah', text: 'Dattes, cannelle et accords gourmands : parfait pour l’automne et l’hiver.', note: 'ÉPICÉ · GOURMAND' },
+          { title: 'Parfums de Marly Althaïr', text: 'Vanille, cannelle et ambre : chaleureux, raffiné et idéal par temps frais.', note: 'VANILLE · AMBRÉ' },
+          { title: 'Jean Paul Gaultier Le Male Elixir', text: 'Un profil ambré et gourmand, à porter avec modération en soirée.', note: 'AMBRÉ · GOURMAND' },
+          { title: 'Stronger With You Powerfully', text: 'Accords sucrés et ambrés, pour une présence marquée quand les températures baissent.', note: 'SUCRÉ · INTENSE' },
           { title: 'Prada Luna Rossa Carbon', text: 'Propre, aromatique et assez polyvalent pour une journée humide. Garde la main légère en intérieur.', note: 'FRAIS & DISCRET' },
           { title: 'Versace Pour Homme', text: 'Une fraîcheur nette et facile à porter, adaptée aux journées pluvieuses ou changeantes.', note: 'PROPRE · AÉRIEN' },
           { title: 'Bleu de Chanel Eau de Toilette', text: 'Frais et boisé, il fonctionne bien quand tu veux quelque chose de soigné sans être trop sucré.', note: 'FRAIS · BOISÉ' },
           { title: 'Montblanc Explorer', text: 'Boisé et frais, pratique au quotidien. Deux ou trois pulvérisations suffisent souvent.', note: 'BOISÉ · QUOTIDIEN' }
         ];
         if (max >= 28) return [
-          { title: 'Versace Man Eau Fraîche', text: 'Frais, aquatique et lumineux : très adapté aux journées chaudes. Commence par 2 à 4 pulvérisations.', note: 'CHALEUR · FRAÎCHEUR' },
-          { title: 'Acqua di Giò Profondo', text: 'Une fraîcheur marine aromatique idéale quand il fait chaud. Évite de surdoser dans les transports.', note: 'MARIN · RAFRAÎCHISSANT' },
-          { title: 'Dior Homme Cologne', text: 'Très frais et citronné, parfait si tu veux une senteur légère par temps chaud.', note: 'AGRUMES · LÉGER' },
-          { title: 'Chanel Allure Homme Sport', text: 'Frais, dynamique et polyvalent pour sortir en journée. Quelques sprays suffisent.', note: 'SPORTIF · FRAIS' }
-        ];
+          { title: 'Louis Vuitton Imagination', text: 'Agrumes, gingembre et thé noir : frais, lumineux et raffiné.', note: 'AGRUMES · FRAIS' },
+          { title: 'Jean Paul Gaultier Le Beau', text: 'Noix de coco et bois : tropical, séduisant et parfait par temps chaud.', note: 'TROPICAL · BOISÉ' },
+          { title: 'Acqua di Giò Eau de Parfum', text: 'Notes marines, agrumes et patchouli : frais et polyvalent.', note: 'MARIN · AGRUMES' },
+          { title: 'Chanel Allure Homme Sport Eau Extrême', text: 'Mandarine, menthe et fève tonka : sportif, crémeux et élégant.', note: 'SPORTIF · FRAIS' },
+          { title: 'Versace Dylan Blue', text: 'Agrumes, notes aquatiques et bois : un parfum facile pour tous les jours.', note: 'AQUATIQUE · BOISÉ' },
+          { title: 'Dolce & Gabbana Light Blue Eau Intense Pour Homme', text: 'Agrumes et accords marins : idéal pour la chaleur et les vacances.', note: 'MARIN · ESTIVAL' },
+          { title: 'Issey Miyake L’Eau d’Issey Pour Homme', text: 'Yuzu et notes aquatiques : une fraîcheur vive pour les journées chaudes.', note: 'AGRUMES · AQUATIQUE' },
+          { title: 'Versace Pour Homme', text: 'Citron, bergamote et notes aromatiques : léger et agréable en plein jour.', note: 'CITRONNÉ · LÉGER' },
+           ];
         if (max >= 22) return [
-          { title: 'Dior Sauvage Eau de Toilette', text: 'Frais et polyvalent pour une journée douce à chaude. Deux ou trois pulvérisations suffisent généralement.', note: 'POLYVALENT · QUOTIDIEN' },
-          { title: 'Yves Saint Laurent Y Eau de Parfum', text: 'Aromatique et boisé, un bon choix pour une journée active avec une température agréable.', note: 'PROPRE · MODERNE' },
-          { title: 'Bleu de Chanel Eau de Parfum', text: 'Un boisé élégant avec une fraîcheur équilibrée, adapté au quotidien comme à une sortie.', note: 'ÉLÉGANT · BOISÉ' },
-          { title: 'Coach for Men', text: 'Fruité, frais et décontracté, bien adapté à une journée douce.', note: 'DÉCONTRACTÉ · FRAIS' }
-        ];
+          { title: 'Mancera Cedrat Boise', text: 'Agrumes, bois et cuir : polyvalent, élégant et adapté à la demi-saison.', note: 'AGRUMES · BOISÉ' }
+          { title: 'Terre d’Hermès', text: 'Orange, vétiver et notes minérales : une élégance sèche et naturelle.', note: 'VÉTIVER · BOISÉ' },
+          { title: 'Bleu de Chanel Eau de Parfum', text: 'Agrumes, encens et bois : raffiné pour le quotidien comme pour les sorties.', note: 'BOISÉ · ÉLÉGANT' },
+          { title: 'Yves Saint Laurent Y Eau de Parfum', text: 'Pomme, sauge et bois : moderne et facile à porter.', note: 'AROMATIQUE · FRAIS' },
+        { title: 'Prada Luna Rossa Carbon', text: 'Lavande, poivre et notes minérales : propre et polyvalent.', note: 'FRAIS · MINÉRAL' },
+        { title: 'Armani Code Parfum', text: 'Iris, bergamote et fève tonka : élégant pour le bureau ou le soir.', note: 'IRIS · AMBRÉ' },
+        { title: 'Xerjoff Erba Pura', text: 'Fruits éclatants et muscs : puissant, fruité et très présent.', note: 'FRUITÉ · INTENSE' },
         if (min <= 7 || max <= 15) return [
-          { title: 'Jean Paul Gaultier Le Male Le Parfum', text: 'Des notes chaudes et ambrées qui conviennent bien à une journée fraîche. Reste léger en cours ou en espace fermé.', note: 'FRAÎCHEUR · AMBRÉ' },
-          { title: 'Emporio Armani Stronger With You Intensely', text: 'Sucré, chaleureux et enveloppant : à privilégier par temps frais, avec peu de pulvérisations.', note: 'CHAUD · GOURMAND' },
-          { title: 'Azzaro The Most Wanted', text: 'Une fragrance chaude et séduisante pour le froid et les sorties. Dose modérément, elle peut être puissante.', note: 'AMBRÉ · INTENSE' },
-          { title: 'Viktor&Rolf Spicebomb Extreme', text: 'Épicé et chaleureux, particulièrement adapté aux températures basses et aux soirées fraîches.', note: 'ÉPICÉ · HIVERNAL' }
+          { title: 'Stronger With You Absolutely', text: 'Rhum, vanille et châtaigne, une fragrance riche et chaleureuse pour les soirées fraîches.', note: 'GOURMAND · AMBRÉ' },
+          { title: 'Jean Paul Gaultier Ultra Male', text: 'Poire, lavande et vanille : sucré, puissant et idéal pour les sorties nocturnes.', note: 'FRUITÉ · SUCRÉ' },
+          { title: 'Le Male Elixir', text: 'Miel, vanille et notes aromatiques : intense et enveloppant quand il fait froid.', note: 'MIEL · VANILLE' },
+          { title: 'Afnan 9 PM', text: 'Pomme, cannelle et vanille : un parfum séduisant pour les soirées fraîches.', note: 'FRUITÉ · VANILLÉ' },
+          { title: 'Dior Homme Intense', text: 'Iris poudré, ambre et bois : élégant, idéal pour les soirées fraîches.', note: 'IRIS · ÉLÉGANT' },
+          { title: 'Valentino Uomo Born in Roma Intense', text: 'Vanille et notes aromatiques : sensuel et affirmé, surtout le soir.', note: 'VANILLÉ · INTENSE' },
+          { title: 'Lattafa Khamrah', text: 'Dattes, cannelle et accords gourmands : parfait pour l’automne et l’hiver.', note: 'ÉPICÉ · GOURMAND' },
+          { title: 'Parfums de Marly Althaïr', text: 'Vanille, cannelle et ambre : chaleureux, raffiné et idéal par temps frais.', note: 'VANILLE · AMBRÉ' },
+          { title: 'Jean Paul Gaultier Le Male Elixir', text: 'Un profil ambré et gourmand, à porter avec modération en soirée.', note: 'AMBRÉ · GOURMAND' },
+          { title: 'Stronger With You Powerfully', text: 'Accords sucrés et ambrés, pour une présence marquée quand les températures baissent.', note: 'SUCRÉ · INTENSE' },
         ];
         return [
           { title: 'Yves Saint Laurent Y Eau de Parfum', text: 'Un choix polyvalent, propre et légèrement boisé, adapté à la météo modérée d’aujourd’hui.', note: 'MI-SAISON · POLYVALENT' },
@@ -579,6 +601,68 @@ document.getElementById('week-grid').addEventListener('keydown', (event) => {
       setTheme(initialTheme);
       ui.themeToggle.addEventListener('click', () => setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'));
       ui.skipPerfume.addEventListener('click', () => showPerfume(perfumeIndex + 1));
+      
+      // Afficher les prévisions horaires en cliquant sur Aujourd'hui
+document.getElementById('week-grid').addEventListener('click', async (event) => {
+  const card = event.target.closest('.day-card.today');
+  if (!card) return;
+
+  const panel = document.getElementById('hourly-panel');
+  const grid = document.getElementById('hourly-grid');
+  const message = document.getElementById('hourly-message');
+
+  if (!panel || !grid || !message) {
+    alert("La section météo horaire est absente du HTML.");
+    return;
+  }
+
+  if (!panel.hidden) {
+    panel.hidden = true;
+    return;
+  }
+
+  panel.hidden = false;
+  message.textContent = 'Chargement des prévisions…';
+
+  try {
+    const place = window.currentPlace;
+    if (!place) throw new Error('Recharge d’abord la météo.');
+
+    const data = await fetchJson(
+      'https://api.open-meteo.com/v1/forecast?' +
+      new URLSearchParams({
+        latitude: place.latitude,
+        longitude: place.longitude,
+        hourly: 'temperature_2m,weather_code,precipitation_probability,wind_speed_10m',
+        timezone: 'auto',
+        forecast_days: '1'
+      })
+    );
+
+    const today = data.hourly.time
+      .map((time, i) => ({ time, i }))
+      .filter(x => x.time.slice(0, 10) === data.hourly.time[0].slice(0, 10));
+
+    grid.innerHTML = today.map(({ time, i }) => `
+      <article class="hour-card">
+        <strong>${time.slice(11, 16)}</strong>
+        <div style="font-size:28px;margin:8px">
+          ${weather(data.hourly.weather_code[i])[1]}
+        </div>
+        <div style="font-size:22px;font-weight:bold">
+          ${Math.round(data.hourly.temperature_2m[i])}°
+        </div>
+        <p>${weather(data.hourly.weather_code[i])[0]}</p>
+        <p>🌧️ ${data.hourly.precipitation_probability[i] ?? 0}%</p>
+        <p>💨 ${Math.round(data.hourly.wind_speed_10m[i])} km/h</p>
+      </article>
+    `).join('');
+
+    message.textContent = 'Prévisions horaires du jour.';
+  } catch (error) {
+    message.textContent = error.message;
+  }
+});
 
       // Installation PWA : le bouton natif apparaît quand le navigateur le permet.
       let installPrompt = null;
