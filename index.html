@@ -208,6 +208,138 @@
 #hourly-panel[hidden] {
   display: none;
 }
+
+
+/* Assistant ia de geminii*/
+.ai-section {
+  margin-top: 22px;
+  padding: 20px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  box-shadow: var(--shadow);
+}
+
+.ai-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 17px;
+}
+
+.ai-avatar {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  background: linear-gradient(145deg, #dce7ff, #b9ccff);
+  font-size: 25px;
+}
+
+.ai-header h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.ai-header p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.ai-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 380px;
+  overflow-y: auto;
+  padding: 5px 2px 15px;
+}
+
+.ai-message {
+  max-width: 85%;
+  width: fit-content;
+  padding: 12px 15px;
+  border-radius: 16px;
+  font-size: 13px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.ai-message.assistant {
+  align-self: flex-start;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-bottom-left-radius: 5px;
+}
+
+.ai-message.user {
+  align-self: flex-end;
+  background: var(--navy);
+  color: white;
+  border-bottom-right-radius: 5px;
+}
+
+.ai-form {
+  display: flex;
+  gap: 9px;
+  margin-top: 10px;
+}
+
+.ai-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 13px 14px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  outline: none;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.ai-form input:focus {
+  border-color: var(--blue);
+}
+
+.ai-form button {
+  border: 0;
+  border-radius: 13px;
+  padding: 0 18px;
+  background: var(--navy);
+  color: white;
+  font-weight: 750;
+}
+
+.ai-form button:disabled,
+.ai-form input:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+.ai-status {
+  min-height: 16px;
+  margin: 9px 2px 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+@media (max-width: 420px) {
+  .ai-section {
+    padding: 15px;
+  }
+
+  .ai-form {
+    flex-direction: column;
+  }
+
+  .ai-form button {
+    padding: 13px;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -287,13 +419,60 @@
       <div><h3>Le petit conseil météo</h3><p>Les prévisions arrivent…</p></div>
     </aside>
 
+    
+<section class="ai-section" aria-labelledby="ai-heading">
+
+  <div class="ai-header">
+    <div class="ai-avatar">✨</div>
+    <div>
+      <h2 id="ai-heading">Assistant Météo & Tenue</h2>
+      <p>Ton conseiller personnel de style et de météo</p>
+    </div>
+  </div>
+
+  <div class="ai-messages" id="ai-messages" aria-live="polite">
+    <div class="ai-message assistant">
+      Salut ! 👋 Je suis ton assistant mode.
+
+      Tu peux me demander quoi porter aujourd'hui,
+      comment associer des couleurs ou me poser
+      une question sur la météo !
+    </div>
+  </div>
+
+  <form class="ai-form" id="ai-form">
+    <input
+      id="ai-input"
+      type="text"
+      maxlength="1500"
+      placeholder="Pose-moi une question..."
+      autocomplete="off"
+      required
+    >
+
+    <button id="ai-send" type="submit">
+      Envoyer ↗
+    </button>
+  </form>
+
+  <p class="ai-status" id="ai-status" role="status"></p>
+
+</section>
+
     <footer class="footer">Données météo fournies par <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a>. Les conseils vestimentaires sont indicatifs : vérifie les conditions avant de sortir.</footer>
   </main>
 
-  <script>
-    (() => {
-      'use strict';
-      const $ = (id) => document.getElementById(id);
+<script>
+  (() => {
+    'use strict';
+
+    // Connexion avec le serveur Cloudflare est icci
+    const AI_WORKER_URL = "https://m-t-o-tenues-ai.mouzaoui-rafik008.workers.dev/";
+
+    // Historique de la conversation avec l'ai juste au cas ouuu
+    const aiHistory = [];
+
+    const $ = (id) => document.getElementById(id);
       const ui = {
         app: $('app'), form: $('search-form'), cityInput: $('city-input'), geoButton: $('geo-button'),
         message: $('state-message'), heroDay: $('hero-day'), heroCity: $('hero-city'), heroCondition: $('hero-condition'),
@@ -461,6 +640,97 @@
       }
       let currentPlace = null;
       let currentForecastDate = null;
+    
+let currentWeatherForAI = null;
+
+async function askAI(message) {
+  const response = await fetch(AI_WORKER_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      message: message,
+      weather: currentWeatherForAI || {},
+      history: aiHistory
+    })
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error || "Erreur IA");
+  }
+
+  const reply = data.reply || "Aucune réponse reçue.";
+
+  aiHistory.push(
+    { role: "user", text: message },
+    { role: "model", text: reply }
+  );
+
+  // Garder seulement les derniers échanges
+  if (aiHistory.length > 8) {
+    aiHistory.splice(0, aiHistory.length - 8);
+  }
+
+  return reply;
+}
+    
+const aiForm = $('ai-form');
+const aiInput = $('ai-input');
+const aiMessages = $('ai-messages');
+const aiStatus = $('ai-status');
+const aiSend = $('ai-send');
+
+// Afficher un message fla conversation
+function addAIMessage(text, type) {
+  const message = document.createElement('div');
+
+  message.className = `ai-message ${type}`;
+  message.textContent = text;
+
+  aiMessages.appendChild(message);
+  aiMessages.scrollTop = aiMessages.scrollHeight;
+}
+
+// Envoyer une question à sa7ebna gemini
+aiForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  const question = aiInput.value.trim();
+  if (!question) return;
+
+  // Afficher la question du visiteur
+  addAIMessage(question, 'user');
+
+  aiInput.value = '';
+  aiInput.disabled = true;
+  aiSend.disabled = true;
+  aiStatus.textContent = "L'assistant réfléchit...";
+
+  try {
+    const reply = await askAI(question);
+
+    // Afficher la réponse de sa7ebna gemini
+    addAIMessage(reply, 'assistant');
+
+    aiStatus.textContent = '';
+
+  } catch (error) {
+    addAIMessage(
+      "Désolé, je n'arrive pas à répondre pour le moment. Vérifie ta connexion et réessaie.",
+      'assistant'
+    );
+
+    aiStatus.textContent = error.message || "Erreur de connexion.";
+  }
+
+  aiInput.disabled = false;
+  aiSend.disabled = false;
+  aiInput.focus();
+});
+
 
       function render(place, daily, fromGps = false) {
         const days = daily.time.map((date, i) => ({
@@ -484,6 +754,22 @@
         const condition = weather(today.weather_code);
         const outfit = getOutfit(today.temperature_2m_max, today.temperature_2m_min, today.wind_speed_10m_max);
         const cityLabel = fromGps ? 'Ma position actuelle' : [place.name, place.admin1 && place.admin1 !== place.name ? place.admin1 : '', place.country].filter(Boolean).join(', ');
+        currentWeatherForAI = {
+            ville: cityLabel,
+          date: today.date,
+          conditions: condition[0],
+          temperature_max: Math.round(today.temperature_2m_max) + "°C",
+          temperature_min: Math.round(today.temperature_2m_min) + "°C",
+          pluie: Math.round(today.precipitation_probability_max) + "%",
+          vent: Math.round(today.wind_speed_10m_max) + " km/h",
+          tenue_conseillee: outfit.title,
+          conseil: dressAdvice(
+            outfit,
+            today.precipitation_probability_max,
+            today.weather_code,
+            today.wind_speed_10m_max
+          )
+        };
         ui.heroCity.textContent = cityLabel;
         ui.heroDay.textContent = `Aujourd’hui · ${niceDate(today.date)}`;
         ui.heroCondition.textContent = condition[0];
