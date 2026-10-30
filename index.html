@@ -467,7 +467,7 @@
     'use strict';
 
     // Connexion avec le serveur Cloudflare est icci
-    const AI_WORKER_URL = "https://m-t-o-tenues-ai.mouzaoui-rafik008.workers.dev/";
+    const AI_WORKER_URL = "https://m-t-o-tenues-ai.mouzaoui-rafik008.workers.dev";
 
     // Historique de la conversation avec l'ai juste au cas ouuu
     const aiHistory = [];
@@ -644,32 +644,56 @@
 let currentWeatherForAI = null;
 
 async function askAI(message) {
-  const response = await fetch(AI_WORKER_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      message: message,
-      weather: currentWeatherForAI || {},
-      history: aiHistory
-    })
-  });
+  let response;
 
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.error || "Erreur IA");
+  try {
+    response = await fetch(AI_WORKER_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: message,
+        weather: currentWeatherForAI || {},
+        history: aiHistory
+      })
+    });
+  } catch (error) {
+    console.error("Connexion au Worker impossible :", error);
+    throw new Error(
+      "Impossible de joindre le Worker. Vérifie son déploiement et le CORS. Détail navigateur : " +
+      (error.message || String(error))
+    );
   }
 
-  const reply = data.reply || "Aucune réponse reçue.";
+  const rawResponse = await response.text();
+  let data;
+
+  try {
+    data = rawResponse ? JSON.parse(rawResponse) : {};
+  } catch (_) {
+    throw new Error(
+      `Réponse non JSON du Worker (HTTP ${response.status}) : ${rawResponse.slice(0, 300)}`
+    );
+  }
+
+  if (!response.ok) {
+    throw new Error(
+      `Worker HTTP ${response.status} : ${data.error || rawResponse || "Erreur inconnue"}`
+    );
+  }
+
+  if (!data.reply) {
+    throw new Error("Le Worker a répondu, mais n'a renvoyé aucun texte. Réponse : " + rawResponse.slice(0, 300));
+  }
+
+  const reply = data.reply;
 
   aiHistory.push(
     { role: "user", text: message },
     { role: "model", text: reply }
   );
 
-  // Garder seulement les derniers échanges
   if (aiHistory.length > 8) {
     aiHistory.splice(0, aiHistory.length - 8);
   }
@@ -718,17 +742,17 @@ aiForm.addEventListener('submit', async (event) => {
     aiStatus.textContent = '';
 
   } catch (error) {
-    addAIMessage(
-      "Désolé, je n'arrive pas à répondre pour le moment. Vérifie ta connexion et réessaie.",
-      'assistant'
-    );
+    const detail = error && error.message ? error.message : String(error);
+    console.error("Erreur du chat IA :", error);
 
-    aiStatus.textContent = error.message || "Erreur de connexion.";
+    // Afficher le vrai diagnostic dans la conversation
+    addAIMessage("Erreur technique : " + detail, 'assistant');
+    aiStatus.textContent = detail;
+  } finally {
+    aiInput.disabled = false;
+    aiSend.disabled = false;
+    aiInput.focus();
   }
-
-  aiInput.disabled = false;
-  aiSend.disabled = false;
-  aiInput.focus();
 });
 
 
