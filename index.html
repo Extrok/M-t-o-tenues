@@ -467,7 +467,7 @@
     'use strict';
 
     // Connexion avec le serveur Cloudflare est icci
-    const AI_WORKER_URL = "https://m-t-o-tenues-ai.mouzaoui-rafik008.workers.dev";
+    const AI_WORKER_URL = "https://meteo-assistant-api.mouzaoui-rafik008.workers.dev/api/chat";
 
     // Historique de la conversation avec l'ai juste au cas ouuu
     const aiHistory = [];
@@ -650,7 +650,7 @@ async function askAI(message) {
     response = await fetch(AI_WORKER_URL, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "text/plain"
       },
       body: JSON.stringify({
         message: message,
